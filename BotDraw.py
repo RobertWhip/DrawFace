@@ -10,8 +10,8 @@ class BotDraw:
         self.__pi.set_mode(self.__PEN_PIN, pigpio.OUTPUT)
         self.__x = 0
         self.__y = 0
-        self.__one_step_x = 1  # 4.409171075837742 * 10**(-6) #1
-        self.__one_step_y = 1  # 1
+        self.__one_step_x = 1
+        self.__one_step_y = 1
         self.__cam_width = 640
         self.__cam_height = 480
         self.__paper_width = 210
@@ -23,7 +23,7 @@ class BotDraw:
 
     def cleanup(self):
         self.__motors.cleanup()
-        # self.__pi.set_servo_pulsewidth(self.__PEN_PIN, 0)
+        self.__pi.set_servo_pulsewidth(self.__PEN_PIN, 0)
 
     def put_pen_up(self, up):
         print("up" if up else "down")
@@ -41,20 +41,6 @@ class BotDraw:
         self.__y = y
         self.__motors.rotate(((old_x - x / self.__one_step_x), (-1) * (old_y - y) / self.__one_step_y))
 
-        '''
-        x_ = x_ * (1215 / 640)
-        y_ = y_ * (1600 / 480)
-        x = x_ * self.__width_scale
-        y = y_ * self.__height_scale
-
-        old_x = self.__x
-        old_y = self.__y
-        self.__x = x
-        self.__y = y
-        self.__motors.rotate(((old_x - x / self.__one_step_x), (-1) * (old_y - y) / self.__one_step_y))
-        '''
-
-
     def draw_line(self,array_of_points):
         for point in array_of_points:
             self.goto(point[0], point[1])
@@ -71,12 +57,7 @@ class BotDraw:
 
 
 def best_callback():
-    try:
-        print("Done!")
-        # x, y = list(map(int, input().split()))
-        # bot.goto(x, y)
-    except KeyboardInterrupt:
-        bot.cleanup()
+    print("Done!")
 
 
 # TEST CODE
